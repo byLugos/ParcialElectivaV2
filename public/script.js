@@ -16,28 +16,55 @@ const getAll = () => {
     .catch((err) => console.log(err));
 };
 const getById = () => {
+  alert("Algunos personajes no registran altura o peso o están vacíos");
+  const id = document.getElementById("objectId").value;
+  const URL = `https://starwars-n5ec-developuptcs-projects.vercel.app/${id}`;
+  fetch(URL)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("No se encontró el personaje");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const character = data.data;
+      const allCharactersDiv = document.querySelector("#results-section");
+      allCharactersDiv.innerHTML = "";
+      allCharactersDiv.innerHTML += showInfo(character);
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Error");
+    });
+};
+const getByName = () => {
     alert("Algunos personajes no registran altura o peso o están vacíos");
-    const id = document.getElementById('objectId').value;
-    const URL = `https://starwars-n5ec-developuptcs-projects.vercel.app/${id}`;
+    const name = document.getElementById("nameId").value;
+    const URL = `https://starwars-n5ec-developuptcs-projects.vercel.app/name/${name}`;
     fetch(URL)
       .then((response) => {
         if (!response.ok) {
-          throw new Error('No se encontró el personaje');
+          throw new Error("No se encontró el personaje");
         }
         return response.json();
       })
       .then((data) => {
-        const character = data.data;
-        const allCharactersDiv = document.querySelector("#results-section");
-        allCharactersDiv.innerHTML = "";
-        allCharactersDiv.innerHTML += showInfo(character);
+        const characters = data.data
+        const resultsDiv = document.querySelector("#results-section"); 
+        resultsDiv.innerHTML = "";
+        if (Array.isArray(characters) && characters.length > 0) {
+          characters.forEach(character => {
+            resultsDiv.innerHTML += showInfo(character);
+          });
+        } else {
+          resultsDiv.innerHTML += showInfo(characters);
+        }
       })
       .catch((err) => {
         console.error(err);
-        alert('Error'); 
+        alert("Error al buscar el personaje");
       });
-  };
-  
+};
 //severo método este
 function showInfo(character) {
   return `
@@ -57,3 +84,4 @@ function showInfo(character) {
 }
 document.querySelector("#getAll").addEventListener("click", getAll);
 document.querySelector("#btnFindById").addEventListener("click", getById);
+document.querySelector("#btnFindByName").addEventListener("click", getByName);
