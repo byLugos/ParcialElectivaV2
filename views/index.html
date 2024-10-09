@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Personajes de Star Wars</h1>
+    </header>
+    <section id="search-section">
+        <h2>Buscar personajes</h2>
+        <div>
+            <label for="objectId">Buscar por ID:</label>
+            <input type="text" id="objectId" placeholder="Ingrese ObjectId">
+            <button id="btnFindById">Buscar!</button>
+        </div>
+        <div>
+            <label for="objectId">Buscar por ID:</label>
+            <input type="text" id="objectId" placeholder="Ingrese ObjectId">
+            <button id="btnFindById">Buscar!</button>
+        </div>
+    </section>
+    <section id="results-section">
+        <h2>Resultados</h2>
+        <div id="results"></div>
+    </section>
+
+    <section id="sectionAll">
+        <h2>Todos los personajes</h2>
+        <button id="getAll">Buscar todos!</button>
+        <div id="all-characters"></div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
