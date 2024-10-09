@@ -1,86 +1,88 @@
 const getAll = () => {
-  alert("Algunos personajes no registran altura o peso o están vacíos");
-  const URL = "https://starwars-n5ec-developuptcs-projects.vercel.app/";
-  fetch(URL)
-    .then((response) => response.json())
-    .then((data) => {
-      const characters = data.data;
-      if (Array.isArray(characters)) {
-        const allCharactersDiv = document.querySelector("#sectionAll");
-        allCharactersDiv.innerHTML = "";
-        characters.forEach((character) => {
-          allCharactersDiv.innerHTML += showInfo(character);
-        });
-      }
-    })
-    .catch((err) => console.log(err));
+    alert("Algunos personajes no registran altura o peso o están vacíos");
+    const URL = "https://starwars-n5ec-developuptcs-projects.vercel.app/";
+    fetch(URL)
+        .then((response) => response.json())
+        .then((data) => {
+            const characters = data.data;
+            const allCharactersBody = document.querySelector("#all-characters tbody");
+            allCharactersBody.innerHTML = ""; 
+            if (Array.isArray(characters)) {
+                characters.forEach((character) => {
+                    allCharactersBody.innerHTML += showInfo(character); 
+                });
+            }
+        })
+        .catch((err) => console.log(err));
 };
+
 const getById = () => {
-  alert("Algunos personajes no registran altura o peso o están vacíos");
-  const id = document.getElementById("objectId").value;
-  const URL = `https://starwars-n5ec-developuptcs-projects.vercel.app/${id}`;
-  fetch(URL)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("No se encontró el personaje");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      const character = data.data;
-      const allCharactersDiv = document.querySelector("#results-section");
-      allCharactersDiv.innerHTML = "";
-      allCharactersDiv.innerHTML += showInfo(character);
-    })
-    .catch((err) => {
-      console.error(err);
-      alert("Error");
-    });
+    alert("Algunos personajes no registran altura o peso o están vacíos");
+    const id = document.getElementById("objectId").value;
+    const URL = `https://starwars-n5ec-developuptcs-projects.vercel.app/${id}`;
+    fetch(URL)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("No se encontró el personaje");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const character = data.data; 
+            const resultsBody = document.querySelector("#results tbody");
+            resultsBody.innerHTML = ""; 
+            resultsBody.innerHTML += showInfo(character);
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("Error al buscar el personaje");
+        });
 };
+
 const getByName = () => {
     alert("Algunos personajes no registran altura o peso o están vacíos");
     const name = document.getElementById("nameId").value;
     const URL = `https://starwars-n5ec-developuptcs-projects.vercel.app/name/${name}`;
     fetch(URL)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("No se encontró el personaje");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const characters = data.data
-        const resultsDiv = document.querySelector("#results-section"); 
-        resultsDiv.innerHTML = "";
-        if (Array.isArray(characters) && characters.length > 0) {
-          characters.forEach(character => {
-            resultsDiv.innerHTML += showInfo(character);
-          });
-        } else {
-          resultsDiv.innerHTML += showInfo(characters);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("Error al buscar el personaje");
-      });
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("No se encontró el personaje");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            const characters = data.data; 
+            const resultsBody = document.querySelector("#results tbody");
+            resultsBody.innerHTML = ""; 
+            if (Array.isArray(characters) && characters.length > 0) {
+                characters.forEach(character => {
+                    resultsBody.innerHTML += showInfo(character); 
+                });
+            } else {
+                resultsBody.innerHTML += showInfo(characters);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("Error al buscar el personaje");
+        });
 };
-//severo método este
+//severo método
 function showInfo(character) {
-  return `
-              <div class="character-card">
-                <h3>${character.name}</h3>
-                <p><strong>Altura:</strong> ${character.height}</p>
-                <p><strong>Peso:</strong> ${character.mass}</p>
-                <p><strong>Color de cabello:</strong> ${character.hair_color}</p>
-                <p><strong>Color de piel:</strong> ${character.skin_color}</p>
-                <p><strong>Color de ojos:</strong> ${character.eye_color}</p>
-                <p><strong>Cumpleaños:</strong> ${character.birth_year}</p>
-                <p><strong>Género:</strong> ${character.gender}</p>
-                <p><strong>Mundo natal:</strong> ${character.homeworld}</p>
-                <p><strong>Especie:</strong> ${character.species}</p>
-              </div>
-            `;
+    return `
+        <tr>
+            <td>${character.name}</td>
+            <td>${character.height || 'N/A'}</td>
+            <td>${character.mass || 'N/A'}</td>
+            <td>${character.hair_color}</td>
+            <td>${character.skin_color}</td>
+            <td>${character.eye_color}</td>
+            <td>${character.birth_year}</td>
+            <td>${character.gender}</td>
+            <td>${character.homeworld || 'N/A'}</td>
+            <td>${character.species || 'N/A'}</td>
+        </tr>
+    `;
 }
 document.querySelector("#getAll").addEventListener("click", getAll);
 document.querySelector("#btnFindById").addEventListener("click", getById);
